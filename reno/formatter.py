@@ -11,6 +11,7 @@
 # under the License.
 
 from __future__ import print_function
+from datetime import datetime
 
 
 def _indent_for_list(text, prefix='  '):
@@ -70,6 +71,11 @@ def format_report(loader, config, versions_to_include, title=None,
         report.append(version_title)
         report.append('=' * len(version_title))
         report.append('')
+
+        if config.add_release_date and loader._scanner._repo._tags_to_dates[version]:
+            date = datetime.fromtimestamp(loader._scanner._repo._tags_to_dates[version])
+            report.append('**Release Date: ' + date.strftime("%B %d, %Y") + "**")
+            report.append('')
 
         # Add the preludes.
         notefiles = loader[version]
